@@ -1,5 +1,3 @@
-type Title = "hamlet" | "as-like" | "othello";
-
 type Performace = {
     playID: string;
     audience: number;
@@ -18,5 +16,26 @@ type Invoice = {
     customer: string;
     performances: Performace[];
 };
+type PerformanceType = {
+    playID: string;
+    audience: number;
+    play: Play;
+    amount: number;
+    volumeCredits: number;
+};
 
-export type { Invoice, Plays, Play, Performace };
+type StatementData = {
+    customer: string;
+    totalAmount: number;
+    totalVolumeCredits: number;
+    performances: PerformanceType[];
+};
+
+export type {
+    Invoice,
+    Plays,
+    Play,
+    Performace,
+    PerformanceType,
+    StatementData,
+};
