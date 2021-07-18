@@ -53,6 +53,6 @@ function statement(invoice: Invoice, plays: Plays) {
 }
 
 console.log(
-    statement(invoicesData[0], playsData),
-    htmlStatement(invoicesData[0], playsData)
+    statement(invoicesData[0], playsData)
+    // htmlStatement(invoicesData[0], playsData)
 );

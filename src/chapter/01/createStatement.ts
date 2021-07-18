@@ -2,48 +2,79 @@ import {
     Invoice,
     Performace,
     PerformanceType,
+    Play,
     Plays,
     StatementData,
 } from "../../data/type";
 
+class PerformanceCalculator {
+    constructor(public performance: Performace, public play: Play) {
+        this.performance = performance;
+        this.play = play;
+    }
+
+    public get amount(): number {
+        throw new Error("override");
+    }
+
+    public get volumeCredits(): number {
+        return Math.max(this.performance.audience - 30, 0);
+    }
+}
+
+class TragedyPerformanceCalculator extends PerformanceCalculator {
+    get amount() {
+        let result = 40000;
+        if (this.performance.audience > 30) {
+            result += 1000 * (this.performance.audience - 30);
+        }
+        return result;
+    }
+}
+class ComedyPerformanceCalculator extends PerformanceCalculator {
+    constructor(performance: Performace, play: Play) {
+        super(performance, play);
+    }
+
+    get amount() {
+        let result = 30000;
+        if (this.performance.audience > 20) {
+            result += 10000 + 500 * (this.performance.audience - 20);
+        }
+
+        result += 300 * this.performance.audience;
+        return result;
+    }
+
+    public get volumeCredits(): number {
+        super.volumeCredits;
+        return (
+            Math.max(this.performance.audience - 30, 0) +
+            Math.floor(this.performance.audience / 5)
+        );
+    }
+}
 function createStatementData(invoice: Invoice, plays: Plays): StatementData {
-    function playFor({ playID }: PerformanceType) {
+    function playFor({ playID }: Performace) {
         return plays[playID];
     }
 
-    function amountFor(aPerformance: PerformanceType) {
-        let result = 0;
-        switch (aPerformance.play.type) {
+    function createPerformanceCalculator(performance: Performace, play: Play) {
+        switch (play.type) {
             case "tragedy":
-                result = 40000;
-                if (aPerformance.audience > 30) {
-                    result += 1000 * (aPerformance.audience - 30);
-                }
-                break;
+                return new TragedyPerformanceCalculator(performance, play);
             case "comedy":
-                result = 30000;
-                if (aPerformance.audience > 20) {
-                    result += 10000 + 500 * (aPerformance.audience - 20);
-                }
-                result += 300 * aPerformance.audience;
-                break;
+                return new ComedyPerformanceCalculator(performance, play);
             default:
-                throw new Error(`알 수 없는 장르 : ${aPerformance.play.type}`);
+                throw new Error(`알 수 없는 장르 ${play.type}`);
         }
-
-        return result;
-    }
-
-    function volumeCreditsFor(aPerformance: PerformanceType) {
-        let result = 0;
-        result += Math.max(aPerformance.audience - 30, 0);
-        if (aPerformance.play.type === "comedy") {
-            result += Math.floor(aPerformance.audience / 5);
-        }
-        return result;
     }
 
     function enrichPerformance(aPerformance: Performace): PerformanceType {
+        const calculator = createPerformanceCalculator(
+            aPerformance,
+            playFor(aPerformance)
+        );
         const result: PerformanceType = {
             play: {
                 name: "",
@@ -54,8 +85,8 @@ function createStatementData(invoice: Invoice, plays: Plays): StatementData {
             ...aPerformance,
         };
         result.play = playFor(result);
-        result.amount = amountFor(result);
-        result.volumeCredits = volumeCreditsFor(result);
+        result.amount = calculator.amount;
+        result.volumeCredits = calculator.volumeCredits;
         return result;
     }
 
