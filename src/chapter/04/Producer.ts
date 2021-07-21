@@ -1,11 +1,12 @@
 import Province from "./Province";
+import { ProducerType } from "./type";
 
 class Producer {
     private province: Province;
 
     readonly name: string;
 
-    constructor(aProvince: Province, data: Producer) {
+    constructor(aProvince: Province, data: ProducerType) {
         this.province = aProvince;
         this.cost = data.cost;
         this.name = data.name;
@@ -16,16 +17,15 @@ class Producer {
         return this.cost;
     }
 
-    set cost(args: number | string) {
-        this.cost = parseInt(String(args), 10);
+    set cost(value: number) {
+        this.cost = value;
     }
 
     get production(): number {
         return this.production;
     }
 
-    set production(amountStr: number | string) {
-        const amount = parseInt(String(amountStr), 10);
+    set production(amount: number) {
         const newProduction = Number.isNaN(amount) ? 0 : amount;
         this.province.totalProduction += newProduction - this.production;
         this.production = newProduction;

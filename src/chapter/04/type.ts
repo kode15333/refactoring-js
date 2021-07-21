@@ -1,4 +1,4 @@
-type Producer = {
+type ProducerType = {
     name: string;
     cost: number;
     production: number;
@@ -6,9 +6,9 @@ type Producer = {
 
 type Doc = {
     name: string;
-    producers: Producer[];
+    producers: ProducerType[];
     demand: number;
     price: number;
 };
 
-export type { Producer, Doc };
+export type { ProducerType, Doc };
