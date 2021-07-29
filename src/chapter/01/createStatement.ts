@@ -5,7 +5,7 @@ import {
     Play,
     Plays,
     StatementData,
-} from "../../data/type";
+} from "./data/type";
 
 class PerformanceCalculator {
     constructor(public performance: Performace, public play: Play) {

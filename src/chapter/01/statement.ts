@@ -1,6 +1,6 @@
-import { Invoice, Plays } from "../../data/type";
-import invoicesData from "../../data/invoices.json";
-import playsData from "../../data/plays.json";
+import { Invoice, Plays } from "./data/type";
+import invoicesData from "./data/invoices.json";
+import playsData from "./data/plays.json";
 
 const statement = (invoice: Invoice, plays: Plays) => {
     let totalAmount = 0;

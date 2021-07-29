@@ -1,6 +1,6 @@
-import invoicesData from "../../data/invoices.json";
-import playsData from "../../data/plays.json";
-import { Invoice, Plays, StatementData } from "../../data/type";
+import invoicesData from "./data/invoices.json";
+import playsData from "./data/plays.json";
+import { Invoice, Plays, StatementData } from "./data/type";
 import createStatementData from "./createStatement";
 
 function usd(aNumber: number) {
