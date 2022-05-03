@@ -8,20 +8,12 @@ class PerformanceCalculator {
         throw new Error(`서브 클래스에서 처리`);
     }
 
-    get volumeCredits () {
-        let volumeCredits = 0;
-        volumeCredits += Math.max(this.performance.audience - 30, 0);
-        if ("comedy" === this.play.type) volumeCredits += Math.floor(this.performance.audience / 5);
-
-        return volumeCredits;
+    get volumeCredits() {
+        return Math.max(this.performance.audience - 30, 0);
     }
 }
 
 class TragedyCalculator extends PerformanceCalculator {
-    constructor (aPerformance, aPlay) {
-        super(aPerformance, aPlay);
-    }
-
     get amount () {
         let result = 40000;
         if (this.performance.audience > 30) {
@@ -29,13 +21,9 @@ class TragedyCalculator extends PerformanceCalculator {
         }
         return result;
     }
-
 }
 
 class ComedyCalculator extends PerformanceCalculator {
-    constructor (aPerformance, aPlay) {
-        super(aPerformance, aPlay);
-    }
 
     get amount(){
         let result = 30000;
@@ -45,6 +33,10 @@ class ComedyCalculator extends PerformanceCalculator {
         result += 300 * this.performance.audience;
         return result;
 
+    }
+
+    get volumeCredits() {
+        return super.volumeCredits + Math.floor(this.performance.audience / 5);
     }
 
 }
