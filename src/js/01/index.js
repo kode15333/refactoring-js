@@ -15,16 +15,13 @@ function statement(invoice, plays) {
     }
 
 
-
-    let totalAmount = appleSouce();
-
-    result += `총액: ${usd(totalAmount)}\n`;
+    result += `총액: ${usd(totalAmount())}\n`;
     result += `적립 포인트: ${totalVolumeCredits()}점\n`;
     console.log(result);
 
     return result;
 
-    function appleSouce () {
+    function totalAmount() {
         let totalAmount = 0;
         for (let perf of invoice.performances) {
 
