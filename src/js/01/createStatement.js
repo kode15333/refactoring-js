@@ -6,7 +6,7 @@ class PerformanceCalculator{
 
     get amount(){
         let result = 0;
-        switch (this.performancee.play.type) {
+        switch (this.play.type) {
             case 'tragedy' :
                 result = 40000;
                 if(this.performancee.audience > 30) {
@@ -41,17 +41,15 @@ export default function createStatementData (invoice, plays) {
     function entirePerformance(aPerformance) {
         const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
         const result = Object.assign({}, aPerformance);
-        result.play = playFor(result);
-        result.amount = amountFor(result);
+        result.play = calculator.play;
+        result.amount = calculator.amount;
         result.volumeCredits = volumeCreditFor(result)
         return result;
     }
     function playFor(aPerformance) {
         return plays[aPerformance.playID];
     }
-    function amountFor(aPerformance) {
-        return  new PerformanceCalculator(aPerformance, playFor(aPerformance)).amount;
-    }
+
 
     function volumeCreditFor(aPerformance) {
         let volumeCredits = 0;
