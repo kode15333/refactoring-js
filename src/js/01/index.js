@@ -7,9 +7,14 @@ import playsData from "./data/plays.json";
 function statement(invoice, plays) {
     const statementData = {};
     statementData.customer = invoice.customer;
-    statementData.performances = invoice.performances;
+    statementData.performances = invoice.performances.map(entirePerformance);
 
     return renderPlainText(statementData,  plays)
+
+    function entirePerformance(aPerformance) {
+        const result = Object.assign({}, aPerformance);
+        return result;
+    }
 
     function renderPlainText(data, plays) {
         let result = `청구 내역 (고객명 : ${data.customer})\n`;
