@@ -6,6 +6,10 @@ function statement (invoice, plays) {
     return renderPlainText(createStatementData(invoice, plays));
 }
 
+function htmlStatement (invoice, plays) {
+    return renderHtml(createStatementData(invoice, plays));
+}
+
 function renderHtml (data) {
     let result = `<h1>청구 내역 (고객명 ${data.customer})</h1>\n`;
 
