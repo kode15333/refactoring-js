@@ -5,9 +5,11 @@ import playsData from "./data/plays.json";
 
 
 function statement(invoice, plays) {
-    return renderPlainText(invoice, plays)
+    const statementData = {};
 
-    function renderPlainText(invoice, plays) {
+    return renderPlainText(statementData, invoice, plays)
+
+    function renderPlainText(data, invoice, plays) {
         let result = `청구 내역 (고객명 : ${invoice.customer})\n`;
 
 
