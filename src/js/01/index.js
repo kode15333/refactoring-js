@@ -1,6 +1,7 @@
 import invoicesData from "./data/invoices.json";
 import playsData from "./data/plays.json";
 
+
 function amountFor(aPerformance, play) {
     let result = 0;
     switch (play.type) {
@@ -25,6 +26,11 @@ function amountFor(aPerformance, play) {
 }
 
 function statement(invoice, plays) {
+
+    function playFor(aPerformance) {
+        return plays[aPerformance.playID];
+    }
+
     let totalAmount = 0;
     let volumeCredits = 0;
     let result = `청구 내역 (고객명 : ${invoice.customer})\n`;
@@ -33,7 +39,7 @@ function statement(invoice, plays) {
         minimumFractionDigits: 2}).format;
 
     for(let perf of invoice.performances) {
-        const play = plays[perf.playID];
+        const play = playFor(perf);
         let thisAmount = amountFor(perf, play)
 
         // 포인트를 적립한다.
