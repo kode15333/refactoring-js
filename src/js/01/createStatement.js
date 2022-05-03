@@ -1,3 +1,11 @@
+class PerformanceCalculator{
+    constructor (aPerformance, aPlay) {
+        this.performancee = aPerformance;
+        this.play = aPlay;
+    }
+}
+
+
 export default function createStatementData (invoice, plays) {
     const result = {};
     result.customer = invoice.customer;
@@ -6,7 +14,9 @@ export default function createStatementData (invoice, plays) {
     result.totalVolumeCredits = totalVolumeCredits(result)
     return result
 
+
     function entirePerformance(aPerformance) {
+        const calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
         const result = Object.assign({}, aPerformance);
         result.play = playFor(result);
         result.amount = amountFor(result);
