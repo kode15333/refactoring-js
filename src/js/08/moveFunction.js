@@ -35,3 +35,60 @@ function distance (p1, p2) {
 function radians (degrees) {
     return degrees * Math.PI / 180;
 }
+
+class Account {
+    get bankCharge () {
+        let result = 4.5;
+        if (this._daysOverdrawn > 0) result += this.overdraftCharge;
+        return result;
+    }
+
+    get overdraftCharge () {
+       return this.type.overdraftCharge(this.daysOverdrawn);
+    }
+}
+
+class AccountType {
+    overdraftCharge (daysOverdrawn) {
+        if (this.isPremium) {
+            const baseCharge = 10;
+            if (daysOverdrawn <= 7) {
+                return baseCharge;
+            } else {
+                return baseCharge + (daysOverdrawn - 7) * 0.85;
+            }
+        } else {
+            return daysOverdrawn * 1.75;
+        }
+    }
+}
+
+{
+    //if 계좌정보가 더 많이 필요했다면, 계좌자체를 넘겨주면 된다 like this
+    class Account {
+        get bankCharge () {
+            let result = 4.5;
+            if (this._daysOverdrawn > 0) result += this.overdraftCharge;
+            return result;
+        }
+
+        get overdraftCharge () {
+            return this.type.overdraftCharge(this);
+        }
+    }
+
+    class AccountType {
+        overdraftCharge (account) {
+            if (this.isPremium) {
+                const baseCharge = 10;
+                if (account.daysOverdrawn <= 7) {
+                    return baseCharge;
+                } else {
+                    return baseCharge + (account.daysOverdrawn - 7) * 0.85;
+                }
+            } else {
+                return account.daysOverdrawn * 1.75;
+            }
+        }
+    }
+}
